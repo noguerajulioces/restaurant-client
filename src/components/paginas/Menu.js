@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FirebaseContext } from '../../firebase';
 
 const Menu = () => {
-
+    const [platillos, savePlatillos] = useState([])
     const { firebase } = useContext(FirebaseContext);
 
     useEffect(() => {
@@ -15,7 +15,15 @@ const Menu = () => {
 
     //Snapshot realtime
     function handleSnapshot(snapshot){
-        
+        const platillos = snapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            }
+        });
+
+        savePlatillos(platillos);
+        console.log(platillos)
     }
 
     return (
